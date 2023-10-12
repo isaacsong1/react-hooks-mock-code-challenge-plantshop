@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 
-function NewPlantForm({handleChange}) {
+function NewPlantForm({handleChange, newPrice, setNewPrice}) {
   const [newName, setNewName] = useState("");
   const [newImage, setNewImage] = useState("");
-  const [newPrice, setNewPrice] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -28,7 +27,7 @@ function NewPlantForm({handleChange}) {
         <input type="text" name="name" placeholder="Plant name" value={newName} onChange={(e) => setNewName(e.target.value)} />
         <input type="text" name="image" placeholder="Image URL" value={newImage} onChange={(e) => setNewImage(e.target.value)} />
         <input type="number" name="price" step="0.01" placeholder="Price" value={newPrice} onChange={(e) => setNewPrice(e.target.value)} />
-        <button type="submit">Add Plant</button>
+        <button type="submit">Add Plant</button>    
       </form>
     </div>
   );

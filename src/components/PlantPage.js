@@ -8,11 +8,12 @@ const URL = "http://localhost:6001/plants";
 function PlantPage() {
   const [plants, setPlants] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [newPrice, setNewPrice] = useState("");
 
   useEffect(() => {
     fetch (URL)
     .then(resp=> resp.json())
-    .then(setPlants)
+    .then(plantsArr => setPlants(plantsArr.map(plant => ({...plant, edit: false}))))
     .catch(err => alert(err));
   }, [])
 
@@ -34,11 +35,24 @@ function PlantPage() {
     setSearchQuery(search)
   }
 
+  const handleEdit = (plantObj, editPrice) => {
+    // setPlants(currPlants => currPlants.map(plant => plant.id === plantObj.id ? ({...plant, edit: true}) : plant))
+    fetch(`${URL}/${plantObj.id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(plantObj)
+    })
+    .then(resp => resp.json())
+    .then(data => console.log(data))
+  }
+
   return (
     <main>
-      <NewPlantForm handleChange={handleChange} />
+      <NewPlantForm handleChange={handleChange} newPrice={newPrice} setNewPrice={setNewPrice} />
       <Search handleSearch={handleSearch} />
-      <PlantList plants={plants} searchQuery={searchQuery} />
+      <PlantList plants={plants} searchQuery={searchQuery} handleEdit={handleEdit} />
     </main>
   );
 }
