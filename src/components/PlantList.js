@@ -1,9 +1,12 @@
 import React from "react";
 import PlantCard from "./PlantCard";
 
-function PlantList() {
+function PlantList({plants, searchQuery}) {
+  // const filterPlants = plants.filter(plant => plant.name.toLowerCase().includes(searchQuery))
+  const mappedPlants = plants.filter(plant => plant.name.toLowerCase().includes(searchQuery)).map(plant => <PlantCard key={plant.id} {...plant} />)
+
   return (
-    <ul className="cards">{/* render PlantCards components in here */}</ul>
+    <ul className="cards">{mappedPlants}</ul>
   );
 }
 
